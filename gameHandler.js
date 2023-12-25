@@ -1176,13 +1176,18 @@ document.addEventListener("touchstart", function (e) {
 
 document.addEventListener("touchmove", function (e) {
     e.preventDefault();
-    if (touchStartX !== undefined && raceCarStartX !== undefined) {
-        const touchX = e.touches[0].clientX;
+    if (touchStartX !== undefined && raceCarStartX !== undefined)  {
+      const touchX = e.touches[0].clientX;
+
+      if ((-23.7< raceCarStartX + (touchX-touchStartX)) && (252>raceCarStartX + (touchX-touchStartX))){
         const deltaX = touchX - touchStartX;
         player.x = raceCarStartX + deltaX;
+        console.log({player:player.x})
+        console.log({touchStartX,deltaX,touchX,raceCarStartX})
 
         const road = gameArea.getBoundingClientRect();
         player.x = Math.min(Math.max(player.x, 0), road.width - carElement.offsetWidth);
+      }
     }
 });
 
