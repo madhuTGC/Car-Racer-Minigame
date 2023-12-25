@@ -1,0 +1,479 @@
+
+*{margin: 0; padding: 0; font-family: 'Josefin Sans', sans-serif;}
+body{
+   overflow: hidden;
+}
+.hide{display: none;}
+.carGame{
+    width: 100%;
+    height: 100vh;
+    background-image: url('assets/images/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+}
+.car{
+    width: 70px;
+    height: 90px;
+    /* background: red; */
+    position: absolute;
+    bottom: 120px;
+    background-image: url('assets/images/car3.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+
+
+.enemyCar{
+   width: 60px;
+   height: 80px;
+   position: absolute;
+   bottom: 120px;
+   background-image: url('assets/images/logo.png');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+}
+
+
+.roadLines{
+    width: 10px;
+    height: 100px;
+    position: absolute;
+    background: yellow;
+    margin-left: 195px;   
+}
+.gameArea{
+    width: 400px;
+    height: 100vh;
+    background: #818586;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    border-right: 7px dashed #d3d3da;
+    border-left: 7px dashed #d3d3da;;
+}
+/* .score{
+    position: absolute;
+    top: 15px;
+    left: 40px;
+    background: #10ac84;
+    width: 150px;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+    box-shadow: 0 5px 5px #777;
+} */
+
+.startScreen {
+
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 1;
+   font-size: 24px;
+   overflow: hidden;
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   background: url('assets/images/start.png') center center no-repeat;
+
+   background-size: cover;
+   
+   z-index: 1;
+   
+}
+
+
+
+.level {
+   display: flex;
+   justify-content: center;
+   align-items: flex-end; /* Align items to the bottom */
+   position: fixed;
+   bottom: 20px; 
+   width: 100%;
+   height: 100%;
+
+}
+
+
+.custom-modal-dialog {
+   max-width: 800px; 
+   width: 100%; 
+   /* margin: 10vh auto; */
+   
+}
+
+.modal-content {
+/* background-color: #aae4f3;  */
+background-color: white;
+border-radius: 50px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow */
+background-size: cover; /* or 'contain' based on your preference */
+border: 5px solid #05314e;
+/* border-radius: 10px; */
+/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+width:90%; /* Set your desired width */
+max-width: 800px; /* Set your desired maximum width */
+margin: auto; /* Center the modal horizontally */
+}
+
+
+
+.modal-header {
+/* overflow: hidden; */
+border-radius: 50px;
+height: 9vh;
+/* width: 34.3vw; */
+display: flex;
+justify-content: end;
+background-image: url('assets/images/popup.png');
+background-size: cover;  
+background-position: center;
+
+}
+
+
+
+
+#timer-icon {
+
+width: 5vh;
+height: 5vh;
+position: absolute;
+left:0%;
+z-index: 1;
+}
+
+
+.modal-body {
+text-align: center;
+}
+
+
+#contentDiv{
+height: auto;
+max-height: 25vh;
+margin: 2%;
+
+}
+
+
+
+@keyframes fadeInLeft {
+from {
+opacity: 0;
+transform: translateX(-100%);
+}
+to {
+opacity: 1;
+transform: translateX(0);
+}
+}
+
+@keyframes bounce {
+0%, 20%, 50%, 80%, 100% {
+transform: translateY(0);
+}
+40% {
+transform: translateY(-10px);
+}
+60% {
+transform: translateY(-5px);
+}
+}
+
+.radio-container label {
+margin-bottom: 10px;
+border-radius: 50px;
+font-size: 20px;
+background-color: white;
+color: #131212;
+padding: 15px;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+text-align: left;
+width: 100%;
+box-sizing: border-box;
+animation: fadeInLeft 0.5s ease;
+border: 2px solid black;
+
+
+}
+
+.radio-container label:hover {
+background-color: #a2a9af;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+/* transform: scale(1.1);  */
+}
+
+
+
+
+input{
+margin-right: 2%;
+}
+
+
+#continueButton {
+    
+    color: #e9e4e4;
+    background-color: #056494;
+    padding: 20px;
+    height: 12vh;
+    width: 12vw;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 600;
+    /* clip-path: polygon(15% 40%, 76% 40%, 90% 57%, 76% 73%, 13% 73%, 0 57%); */
+    /* clip-path: polygon(15% 37%, 76% 38%, 86% 57%, 75% 73%, 16% 73%, 4% 57%); */
+    clip-path: polygon(14% 33%, 77% 34%, 86% 57%, 76% 80%, 14% 80%, 4% 57%);
+    /* text-align: center; */
+    padding-bottom: 1px;
+    padding-left: 2px;
+    
+}
+
+
+
+
+
+#continueButton:hover {
+background-color: #808181; /* Change background color on hover */
+}
+
+
+#error-text {
+color: #f01111; 
+font-size: 1.5rem; /* Font size */
+margin-top: 10px; /* Margin at the top */
+font-weight: 500;
+text-align: center;
+}
+
+
+
+.hide {
+   display: none;
+}
+
+
+
+.radio-container {
+   padding: 0% 3%;
+}
+
+
+
+
+#easy {
+    /* display: block; */
+    /* margin: 20px auto;  */
+    cursor: pointer;
+    /* margin: 0; */
+    width: 30vw;
+    /* z-index: 1; */
+
+}
+
+
+
+.modal-body {
+   text-align: center;
+}
+
+#questionText {
+   font-size: 1.5em;
+   font-weight: 600;
+   margin-bottom: 0.1px;
+   color: #ebe8e8;
+   text-align: left;
+   background-color: #1054ac;
+   border-radius: 17px;
+   padding: 1rem;
+
+}
+
+#ins {
+   color: rgb(224, 57, 57);
+}
+
+
+
+
+
+#error-text {
+   color: #f01111;
+   font-size: 1.5rem;
+   margin-top: 10px;
+   font-weight: 500;
+   text-align: center;
+}
+
+.timerContainer {
+   
+   color: #0c0b0b;
+   font-size: 1.3em;
+   background-color: white;
+   border: yellow;
+   position: relative;
+   /* padding: 5px; */
+   box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
+   border-radius: 30px;
+   width: 21%;
+   height: 5vh;
+   display: flex;
+   justify-content: end;
+   align-items: center;
+   /* gap: 1em; */
+   padding-right:10px;
+   /* padding: 10px; */
+   text-align: end;
+}
+
+
+.modal-body {
+   text-align: center;
+}
+
+
+
+
+#error-text {
+   color: #f01111;
+   font-size: 1.5rem;
+   margin-top: 10px;
+   font-weight: 500;
+   text-align: center;
+}
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+ 
+ }
+
+
+@media (max-width: 480px) {
+
+
+    /* .score {
+        left: 150px;
+        width: 100px;
+        font-size: 1em;
+        z-index: 1;
+    } */
+
+    #continueButton {
+        height: 12vh;
+        width: 40vw; 
+        padding-bottom: 6px;
+
+    }
+   
+
+.hide {
+   display: none;
+}
+
+.carGame {
+    background-size: cover;
+   width: 100%;
+   height: 100vh;
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+}
+
+.radio-container {
+   padding: 0% 3%;
+}
+
+
+
+/* .modal-body {
+    padding: 10px;
+   text-align: center;
+} */
+
+#questionText {
+    font-weight: 600;
+    color: #c4bfbf; /* Dark text color */
+    text-align: left;
+    margin: 1%;
+   font-size: 1.5em;
+   color: #ebe8e8;
+   text-align: left;
+   background-color: #1054ac;
+   border-radius: 17px;
+   padding: 1rem;
+
+}
+
+
+.modal-footer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   /* height: 20vh; */
+   /* padding-bottom: 3rem; */
+
+}
+
+
+
+#error-text {
+   color: #f01111;
+   font-size: 1.5rem;
+   margin-top: 10px;
+   font-weight: 500;
+   text-align: center;
+}
+
+.timerContainer {
+    width: 40%;
+    text-align: end;
+   color: #0c0b0b;
+   font-size: 1.3em;
+   background-color: white;
+   border: yellow;
+   position: relative;
+   /* padding: 5px; */
+   box-shadow: 0 0 10px rgba(41, 38, 38, 0.2);
+   border-radius: 30px;
+   height: 5vh;
+   display: flex;
+   justify-content: end;
+   align-items: center;
+   /* gap: 1em; */
+   padding-right:10px;
+   /* padding: 10px; */
+}
+
+
+    .gameArea {
+        width: calc(100% - 14px);
+        height: 100vh;
+        background: #2d3436;
+    }
+
+
+#error-text {
+    color: #f01111;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+
+    .modal-header{
+        background-size: cover;  
+        background-position: center;
+        background-size: contain; /* Adjust as needed */
+
+    }
+}
