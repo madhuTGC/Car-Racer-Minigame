@@ -4,14 +4,15 @@ const startScreen = document.querySelector('.startScreen');
 const gameArea = document.querySelector('.gameArea');
 const level = document.querySelector('.level');
 var url = new URL(window.location.href);
-console.log(url);
+
 var urlParams = new URLSearchParams(window.location.search);
-let paramUserID = urlParams.get('userid');
+let paramUserID = urlParams.get('Email');
 let ParamOrgID= urlParams.get('OrgID');
  let M2OstAssesmentID=0;
 let id_game=urlParams.get('idgame');
 let gameAssesmentId=urlParams.get('gameassid');
 let currentQuestionIndex=0;
+let UID=[];
 
 
 const QuestionList=
@@ -621,18 +622,37 @@ let gameOver = new Audio();
 
 
 //url https://www.playtolearn.in/Assessment/?userid=@userid&M2ostAssessmentId=@asid&idgame=10&gameassid
-async function getDetails(url =`https://www.playtolearn.in/Mini_games_beta/api/GetAssessmentDataList?OrgID=${ParamOrgID}&UID=${paramUserID}&M2ostAssessmentId=0&idgame=${id_game}&gameassid=${gameAssesmentId}`) {
+async function getIdUser(url=`https://www.playtolearn.in/Mini_games_beta/api/UserDetail?OrgId=${ParamOrgID}&Email=${paramUserID}`){
+    try{
+        const response= await fetch(url, { method: 'GET' });
+        const encryptedData = await response.json();
+        const IdUser=JSON.parse(encryptedData);
+        console.log(encryptedData);
+        UID.push(IdUser);
+        console.log(UID[0].Id_User);
+        getDetails();
+        return encryptedData;
+       
+    }
+    catch (error) {
+        console.error('Fetch error:', error.message);
+        throw error;
+      }
+}
+
+async function getDetails(url =`https://www.playtolearn.in/Mini_games_beta/api/GetAssessmentDataList?OrgID=${ParamOrgID}&UID=${UID[0].Id_User}&M2ostAssessmentId=0&idgame=${id_game}&gameassid=${gameAssesmentId}`) {
   try {
     const response = await fetch(url, { method: 'GET' });
 
-    if (!response.ok) {
-      throw new Error(`Network response was not ok, status code: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Network response was not ok, status code: ${response.status}`);
+    // }
 
     const encryptedData = await response.json();
-    QuestionList=JSON.parse(encryptedData)
+    QuestionList=JSON.parse(encryptedData);
     console.log('ResponseData',QuestionList);
-     // Assuming the response is the encrypted dat
+
+     // Assuming the response is the encrypted data
     
 
     
@@ -646,10 +666,9 @@ async function getDetails(url =`https://www.playtolearn.in/Mini_games_beta/api/G
 
 function initializePage() {
   try {
+    getIdUser();
+   
     
-     getDetails();
-    
-
   } catch (error) {
     // console.error('Error during initialization:', error.message);
   }
@@ -658,15 +677,19 @@ function initializePage() {
 document.addEventListener('DOMContentLoaded', initializePage);
 
 
+let getResponse;
 
-async function saveAssessment(data) {
+
+
+
+  async function saveAssessment(data) {
     let postData = data;
    
   
     const baseUrl = 'https://www.playtolearn.in/';
     const endpoint = 'Mini_games_beta/api/assessmentdetailuserlog';
     const url = baseUrl + endpoint;
-    console.log('url',url);
+    
     
   
     const response = await fetch(url, {
@@ -678,15 +701,47 @@ async function saveAssessment(data) {
       body: JSON.stringify(postData),
     });
   
-    if (!response.ok) {
-      throw new Error(`Network response was not ok, status code: ${response.status}`);
-    }
-  
+    // if (!response.ok) {
+    //   throw new Error(`Network response was not ok, status code: ${response.status}`);
+    // }
+    console.log('response',response);
     const responseData = await response.json();
-    console.log('Response:', responseData);
+
+   
+   
     return responseData;
   }
+  async function saveAssessmentMasterLog(data) {
+    let postData = data;
+    console.log( JSON.stringify(postData));
+   
+  
+    const baseUrl = 'https://www.playtolearn.in/';
+    const endpoint = 'Mini_games_beta/api/gameusermasterlog';
+    const url = baseUrl + endpoint;
+    
+    
+  
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any additional headers if required
+      },
+      body: JSON.stringify(postData),
+    });
 
+  
+    // if (!response.ok) {
+    // throw new Error(`Network response was not ok, status code: ${response.status}`);
+      
+    // }
+//   console.log('response',response);
+   const responseData = await response.json();
+    
+   
+    return responseData;
+  }
   
 // Usage example:
 // Assuming 'assessmentData' contains the data you want to send
@@ -755,6 +810,49 @@ startButton.addEventListener('click', () => {
 });
 
 
+window.onload = function() {
+  showPopup();
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  showPopup();
+});
+
+
+function showPopup() {
+  popup.classList.remove('hide');
+  startScreen.style.filter = 'blur(5px)';
+}
+
+function closePopup() {
+  const popup = document.getElementById('popup');
+  popup.classList.add('hide');
+
+  // Unblur the start screen
+  const startScreen = document.querySelector('.startScreen');
+  startScreen.style.filter = 'none';
+}
+
+
+
+
+ function showNewPopup() {
+        const newPopup = document.getElementById('newPopup');
+        newPopup.classList.remove('hide');
+        startScreen.style.filter = 'blur(5px)';
+    }
+
+    function closeNewPopup() {
+        const newPopup = document.getElementById('newPopup');
+        newPopup.classList.add('hide');
+
+        // Unblur the start screen
+        const startScreen = document.querySelector('.startScreen');
+        startScreen.style.filter = 'none';
+    }
+
+
+
 
 
 // function randomColor(){
@@ -798,7 +896,6 @@ function displayQuestion() {
         const currentQuestion = QuestionList[currentQuestionIndex];
         displayQuestionInModal(QuestionList[currentQuestionIndex]);
 
-        console.log(currentQuestionIndex);
         // getData();
         
         currentQuestionIndex++;
@@ -814,12 +911,12 @@ function displayQuestion() {
 let rank=0;
 let scores=10;
 let AssementData=[];
-let Right_Ans;
+let assessmentObject=[];
+let GivenAns;
 
 
 
 function displayQuestionInModal(questionObj) {
-  console.log(questionObj);
     const question = questionObj.Assessment_Question;
     const content = questionObj.assessment_question_url;
 
@@ -891,108 +988,53 @@ $('#contentDiv').empty().append(imageElement);
 
 
     $('#continueButton').off('click').on('click', function () {
-        const selectedOption = $('input[name=group]:checked').val();
-        console.log('Selected Option:', selectedOption);  
-     
-        if (selectedOption) {
-            $('#questionModal').modal('hide');
-            // currentQuestionIndex++;
-            resumeGame();
-           
-            const errorTextElement = $('#error-text');
-            errorTextElement.text("");
+      const selectedOption = $('input[name=group]:checked').val();
+      
+   
+      if (selectedOption) {
+          $('#questionModal').modal('hide');
+          // currentQuestionIndex++;
+          resumeGame();
+         
+          const errorTextElement = $('#error-text');
+          errorTextElement.text("");
+          const option=questionObj.optionList;
+          console.log(option);
+          AssementData.push(questionObj);
+          // let scores=10;
+          if (selectedOption == QuestionList[currentQuestionIndex - 1].optionList[0].Right_Ans) {
+              console.log(QuestionList[currentQuestionIndex - 1].optionList[0]);
+              id_question=QuestionList[currentQuestionIndex - 1].optionList[0].Id_Assessment_question_ans;
+              GivenAns = '1';
+              scores = 10;
+          } else {
+              console.log('wrong answer');
+              // Incorrect answer
+              id_question=QuestionList[currentQuestionIndex - 1].optionList[0].Id_Assessment_question_ans;
+              GivenAns = '2';
+              scores = 0;         
+               }
+              
+          // Create an object with assessment data
+          const assessmentAnsResponse = {'isRightAns': GivenAns, 'AchieveScore': scores,'id_question':id_question};
+          // Log the AssementData array
+          assessmentObject.push(assessmentAnsResponse);
+
+      }else {
+          const errorTextElement = $('#error-text');
+          errorTextElement.text("Click any one option");
+          // setTimeout(function () {
+          //     $('#questionModal').modal('show');
+              
+              
+          // }, 0);
+      }
+      
+  });
 
 
 
-
-
-            const option=questionObj.optionList;
-            console.log('pushedOption',option[currentQuestionIndex-1]);
-            // console.log(questionObj)
-            AssementData.push(questionObj);
-            // console.log(option)
-            // console.log( QuestionList[currentQuestionIndex-1].optionList[option-1].Right_Ans);
-            // console.log(option)
-
-
-            // if(1 == QuestionList[currentQuestionIndex-1].optionList[correctOptions-1].Right_Ans){
-            //         scores+=1;
-            
-            //         console.log(scores);
-            //         console.log("correct answer");
-                    
-            //         console.log( QuestionList[currentQuestionIndex-1].optionList[correctOptionsoption-1].Right_Ans);
-            
-            
-            //     }
-            //     else{
-            //        console.log("wrong answer"); 
-            
-            //     }
-
-            // const correctOptions = options.filter((option) => option.Right_Ans === 2);
-
-                console.log("c",selectedOption);
-                console.log("q",QuestionList[currentQuestionIndex - 1].optionList[0].Right_Ans)
-
-            // let scores=10;
-            if (selectedOption == QuestionList[currentQuestionIndex - 1].optionList[0].Right_Ans) {
-                scores += 10;
-                // console.log(scores);
-                console.log("correct answer");
-                Right_Ans='1'
-                // console.log(QuestionList[currentQuestionIndex - 1].optionList[0].Right_Ans);
-            } else {
-              scores=0;
-              Right_Ans='2'
-                console.log("wrong answer");
-            }
-            
-
-
-            
-            
-
-            
-                // console.log("correctOptions",correctOptions);
-                // if (selectedOption==correctOptions){
-                    // console.log("answer-true")
-                // }
-                // else{
-                    // console.log("answer false")
-                // }
-
-
-
-
-            // if (questionObj.optionList.Right_Ans===options){
-
-            //     console.log("correct answer")
-
-            // }
-            // else{
-            //     console.log("wrong answer")
-            // }
-            
-
-
-
-        }else {
-            const errorTextElement = $('#error-text');
-            errorTextElement.text("Click any one option");
-            // setTimeout(function () {
-            //     $('#questionModal').modal('show');
-                
-                
-            // }, 0);
-        }
-        
-    });
-
-
-
-
-    let timer = 60; // Set the timer duration in seconds
+    let timer = 30; // Set the timer duration in seconds
     const timerElement = $('#timer');
     timerElement.text(`${timer} sec`);
 
@@ -1046,13 +1088,15 @@ function resumeGame() {
     gameStart.play();
   
     player.start = true;
-    if (currentQuestionIndex < QuestionList.length) {
+    if (currentQuestionIndex <= QuestionList.length) {
         window.requestAnimationFrame(gamePlay);
         
 
     }
     else {
         onGameOver()
+        // showPopup()
+        showNewPopup()
     }
 
 }
@@ -1062,36 +1106,58 @@ function onGameOver() {
   player.start = false;
   gameStart.pause();
   gameOver.play();
-  console.log('AssessmentData', AssementData);
 
+  const mergedData = AssementData.map((game, index) => ({ ...game, ...assessmentObject[index] }));
+
+console.log(mergedData);
   let assessmentData =[];
+  let assementDataForMasterLog=[];
 
-  for (let i = 0; i < AssementData.length; i++) {
-      console.log(i);
-      // i=1;
+ var sum=0;
+  for (let i = 1; i < mergedData.length; i++) {
+   
+     sum=mergedData[i].AchieveScore  + sum   ;
+     console.log('inSum',sum);
+    
+     
+   
+      // i=1;mergedData
       let model = {
-          ID_ORGANIZATION: ParamOrgID,
-          id_user:paramUserID,
-          Id_Assessment: AssementData[i].Id_Assessment,
-          Id_Game: AssementData[i].Id_Game,
-          attempt_no: AssementData[i].allow_attempt,
-          id_question: AssementData[i].id_question,
-          is_right: Right_Ans,
-          score: scores,
-          Id_Assessment_question_ans: AssementData[i].Id_Assessment_question_ans,
-          Time: "57",
-          M2ostAssessmentId: 0
-      };
+        ID_ORGANIZATION: ParamOrgID,
+        id_user:paramUserID,
+        Id_Assessment: mergedData[i].Id_Assessment,
+        Id_Game: mergedData[i].Id_Game,
+        attempt_no: mergedData[i].allow_attempt,
+       id_question:mergedData[i].Id_Assessment_question,
+        is_right: mergedData[i].isRightAns,
+        score: mergedData[i].AchieveScore,
+      Id_Assessment_question_ans:mergedData[i].id_question,
+        Time: mergedData[i].Timer,
+        M2ostAssessmentId: 478
+    };
+    console.log('OutSum',sum);
+    let modelForGameMasterLog = {
+        ID_ORGANIZATION: ParamOrgID,
+        id_user:paramUserID,
+        Id_Room: mergedData[0].Id_Assessment,
+        Id_Game: mergedData[0].Id_Game,
+        attempt_no: mergedData[0].allow_attempt,
+        score:sum,
+   
+    };
 
       assessmentData.push(model);
+      assementDataForMasterLog.push(modelForGameMasterLog);
       // Add other data objects as needed...
   }
 
-  console.log(assessmentData);
+ 
 
-  
+  console.log('AssesmentLog',assementDataForMasterLog);
   
   saveAssessment(assessmentData);
+  saveAssessmentMasterLog(assementDataForMasterLog[assementDataForMasterLog.length - 1]);
+
 
   startScreen.classList.remove('hide');
   startScreen.innerHTML = "<b>Thank You For Completed Your Assesment<b>";

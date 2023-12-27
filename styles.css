@@ -3,6 +3,8 @@
 body{
    overflow: hidden;
 }
+
+
 .hide{display: none;}
 .carGame{
     width: 100%;
@@ -53,37 +55,91 @@ body{
     border-right: 7px dashed #d3d3da;
     border-left: 7px dashed #d3d3da;;
 }
-/* .score{
-    position: absolute;
-    top: 15px;
-    left: 40px;
-    background: #10ac84;
-    width: 150px;
-    line-height: 50px;
-    text-align: center;
-    color: white;
-    font-size: 1.5em;
-    box-shadow: 0 5px 5px #777;
-} */
+
+
 
 .startScreen {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
 
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
-   z-index: 1;
-   font-size: 24px;
-   overflow: hidden;
-   position: absolute;
-   height: 100%;
-   width: 100%;
-   background: url('assets/images/start.png') center center no-repeat;
-
-   background-size: cover;
-   
-   z-index: 1;
-   
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: url('assets/images/start.png') center center no-repeat;
+    background-size: cover;
 }
+
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.popup img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+
+
+.newPopup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .newPopup img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .newClose {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+
 
 
 
@@ -296,10 +352,6 @@ text-align: center;
 
 }
 
-#ins {
-   color: rgb(224, 57, 57);
-}
-
 
 
 
@@ -470,5 +522,26 @@ text-align: center;
         background-position: center;
         background-size: contain; /* Adjust as needed */
 
+    }
+    .startScreen {
+        
+        background-position-x: 38%;
+    }
+
+    
+
+}
+
+
+@media (max-width: 768px) {
+    .popup {
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .close {
+        top: 5px;
+        right: 5px;
+        font-size: 16px;
     }
 }

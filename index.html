@@ -14,29 +14,34 @@
 </head>
 <body>
     <div class="carGame">
-        <!-- <div class="score"></div> -->
+        
+
         <div class="startScreen">
-            <!-- <h1 id="ins">Instruction</h1>
-            <p>Press here to start <br>
-               Use Arrow keys to move <br>
-               If you hit any flag you will do Assessment.  
-            </p> -->
             <div>
                 <span class="level">
-                    <!-- <button id="easy" onclick="getData()">Easy</button> -->
                     <div>
-                        <img id="easy"  src="assets/images/Group 36242.png">
-
+                        <img id="easy" src="assets/images/Group 36242.png" >
                     </div>
-
-
-                    <!-- <button id="moderate">Moderate</button>
-                    <button id="difficult">Difficult</button> -->
+                    
                 </span>
             </div>
-
-            
         </div>
+        
+        <div id="popup" class="popup hide">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <img src="assets/images/welcome screen.png" alt="Popup Image">
+        </div>
+
+
+        <div id="newPopup" class="newPopup hide">
+            <span class="newClose" onclick="closeNewPopup()">&times;</span>
+            <img src="assets/images/completion.png" alt="New Popup Image">
+        </div>
+        
+        
+        
+        
+
         <div class="gameArea"></div>
         <div class="modal" tabindex="-1" role="dialog" id="questionModal"  style="overflow-y: auto;height: 100%;padding-left: 0px;" data-backdrop="static"> 
 
@@ -84,6 +89,8 @@
                     <div class="modal-footer">
                         <button type="button" id="continueButton" class="btn btn-secondary" >Submit</button>
                     </div>
+
+                    
 
                 </div>
             </div>
